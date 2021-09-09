@@ -31,11 +31,32 @@ window.addEventListener('scroll', function () {
 })
 
 /*-------   Swiper --------------------*/
+
 const swiper = new Swiper('.swiper-container', {
   slidesPerView: 1,
   pagination: {
     el: '.swiper-pagination'
   },
   mousewheel: true,
-  Keyboard: true
+  Keyboard: true,
+  loop: true,
+  speed: 1000
 })
+
+/*--------   ScrollReveal --------------*/
+const scrollReveal = ScrollReveal({
+  origin: 'top',
+  distance: '30px',
+  duration: 700,
+  reset: true
+})
+
+scrollReveal.reveal(
+  `#home .image, #home .text,
+  #about .image, #about .text,
+  #servicies header, #servicies .card,
+  #testimonials header, #testimonials .testimonials,
+  #contact .text, #contact .links
+`,
+  { interval: 100 }
+)
