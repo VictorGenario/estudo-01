@@ -17,11 +17,10 @@ for (const link of links) {
   })
 }
 /*------  scroll page -------------- */
+const header = document.querySelector('#header')
+const navHeight = header.offsetHeight
 
 function changeHeaderWhenScroll() {
-  const header = document.querySelector('#header')
-  const navHeight = header.offsetHeight
-
   if (window.scrollY >= navHeight) {
     //quando o scroll for maior que a altura do header
     header.classList.add('scroll')
@@ -39,11 +38,14 @@ const swiper = new Swiper('.swiper-container', {
     el: '.swiper-pagination'
   },
   mousewheel: true,
-  Keyboard: true,
-  loop: true,
-  speed: 1000
+  keyboard: true,
+  breakpoints: {
+    1030: {
+      slidesPerView: 2,
+      setWrapperSize: true
+    }
+  }
 })
-
 /*--------   ScrollReveal --------------*/
 const scrollReveal = ScrollReveal({
   origin: 'top',
@@ -64,9 +66,8 @@ scrollReveal.reveal(
 )
 
 /* Button back to top */
+const backToTopButton = document.querySelector('.back-to-top')
 function backToTop() {
-  const backToTopButton = document.querySelector('.back-to-top')
-
   if (window.scrollY >= 560) {
     backToTopButton.classList.add('show')
   } else {
@@ -74,8 +75,34 @@ function backToTop() {
   }
 }
 
+/* Menu ativo */
+const sections = document.querySelectorAll('main section[id]')
+function activateMenuAtSection() {
+  const chekpoint = window.pageYOffset + (window.innerHeight / 8) * 4
+
+  for (const section of sections) {
+    const sectionTop = section.offsetTop
+    const sectionHeight = section.offsetHeight
+    const sectionId = section.getAttribute('id')
+
+    const chekpointStart = chekpoint >= sectionTop
+    const chekpointEnd = chekpoint <= sectionTop + sectionHeight
+
+    if (chekpointStart && chekpointEnd) {
+      document
+        .querySelector('nav ul li a[href*=' + sectionId + ']')
+        .classList.add('active')
+    } else {
+      document
+        .querySelector('nav ul li a[href*=' + sectionId + ']')
+        .classList.remove('active')
+    }
+  }
+}
+
 /* When Scrolling */
 window.addEventListener('scroll', function () {
   changeHeaderWhenScroll()
   backToTop()
+  activateMenuAtSection()
 })
